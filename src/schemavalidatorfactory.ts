@@ -1,9 +1,12 @@
-let ZSchema = require('z-schema');
+// let ZSchema = require('z-schema');
+import ZSchema from 'z-schema';
 
 export abstract class SchemaValidatorFactory {
   abstract createValidatorFn(schema): (value: any) => any;
 
   abstract getSchema(schema, ref): any;
+
+  abstract isRequiredPropertyError(error): boolean;
 }
 
 export class ZSchemaValidatorFactory extends SchemaValidatorFactory {
@@ -24,8 +27,7 @@ export class ZSchemaValidatorFactory extends SchemaValidatorFactory {
 
       this.zschema.validate(value, schema);
       let err = this.zschema.getLastErrors();
-
-      this.denormalizeRequiredPropertyPaths(err);
+      err = this.denormalizeRequiredPropertyPaths(err);
 
       return err || null;
     };
@@ -41,14 +43,27 @@ export class ZSchemaValidatorFactory extends SchemaValidatorFactory {
     }
   }
 
+  isRequiredPropertyError(error: any): boolean {
+    return error.code === 'OBJECT_MISSING_REQUIRED_PROPERTY';
+  }
+
   private denormalizeRequiredPropertyPaths(err: any[]) {
     if (err && err.length) {
-      err = err.map(error => {
+      return err.reduce((result, error) => {
         if (error.path === '#/' && error.code === 'OBJECT_MISSING_REQUIRED_PROPERTY') {
-          error.path = `${error.path}${error.params[0]}`;
+          error.path += error.params[0];
+          result.push(error);
+        } else if (error.path === '#/' && error.inner) {
+          const inners = error.inner.map(ierr => {
+            if (ierr.path === '#/') {
+              ierr.path += ierr.params[0];
+            }
+            return ierr;
+          });
+          result = result.concat(inners);
         }
-        return error;
-      });
+        return result;
+      }, []);
     }
   }
 

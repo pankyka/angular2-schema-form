@@ -7,6 +7,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import {SchemaValidatorFactory} from '../schemavalidatorfactory';
 import {ValidatorRegistry} from './validatorregistry';
+import {Validator} from './validator';
 
 export abstract class FormProperty {
   public schemaValidator: Function;
@@ -21,7 +22,7 @@ export abstract class FormProperty {
   private _parent: PropertyGroup;
   private _path: string;
 
-  constructor(schemaValidatorFactory: SchemaValidatorFactory,
+  constructor(private schemaValidatorFactory: SchemaValidatorFactory,
               private validatorRegistry: ValidatorRegistry,
               public schema: any,
               parent: PropertyGroup,
@@ -71,6 +72,14 @@ export abstract class FormProperty {
 
   public get valid() {
     return this._errors === null;
+  }
+
+  public get required() {
+    let isRequired = false;
+    if (this._errors && this._errors.length) {
+      isRequired = !this._errors.every(err => !this.schemaValidatorFactory.isRequiredPropertyError(err));
+    }
+    return isRequired;
   }
 
   public abstract setValue(value: any, onlySelf: boolean);
