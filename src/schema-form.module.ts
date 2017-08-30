@@ -28,18 +28,7 @@ import {
 import {WidgetRegistry} from './widgetregistry';
 import {DefaultWidgetRegistry} from './defaultwidgets';
 import {SchemaValidatorFactory, ZSchemaValidatorFactory} from './schemavalidatorfactory';
-import {FormElementComponentAction} from "./formelement.action.component";
-
-const moduleProviders = [
-  {
-    provide: WidgetRegistry,
-    useClass: DefaultWidgetRegistry
-  },
-  {
-    provide: SchemaValidatorFactory,
-    useClass: ZSchemaValidatorFactory
-  }
-];
+import {FormElementComponentAction} from './formelement.action.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -96,18 +85,23 @@ const moduleProviders = [
 })
 export class SchemaFormModule {
 
-  static forRoot(providers?: [{ provide: any, useClass: any }]): ModuleWithProviders {
-    if (providers) {
-      providers.forEach(provider => {
-        const found = moduleProviders.find(p => p.provide === provider.provide);
-        found.useClass = provider.useClass;
-      });
-    }
+  static forRoot({widgetRegistry, validatorFactory}: { widgetRegistry?: any, validatorFactory?: any } = {
+    widgetRegistry: DefaultWidgetRegistry,
+    validatorFactory: ZSchemaValidatorFactory
+  }): ModuleWithProviders {
 
     return {
       ngModule: SchemaFormModule,
-      providers: [...moduleProviders]
+      providers: [
+        {
+          provide: WidgetRegistry,
+          useClass: widgetRegistry ? widgetRegistry : DefaultWidgetRegistry
+        },
+        {
+          provide: SchemaValidatorFactory,
+          useClass: validatorFactory ? validatorFactory : ZSchemaValidatorFactory
+        }
+      ]
     };
   }
-
 }

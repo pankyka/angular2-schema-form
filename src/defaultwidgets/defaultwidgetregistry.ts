@@ -1,25 +1,22 @@
-import {
-  ArrayWidget,
-  ObjectWidget,
-  CheckboxWidget,
-  FileWidget,
-  IntegerWidget,
-  TextAreaWidget,
-  RadioWidget,
-  RangeWidget,
-  SelectWidget,
-  StringWidget,
-  ButtonWidget
-} from './';
-
-import { WidgetRegistry } from '../widgetregistry';
+import {WidgetRegistry} from '../widgetregistry';
+import {ArrayWidget} from './array/array.widget';
+import {ObjectWidget} from './object/object.widget';
+import {StringWidget} from './string/string.widget';
+import {IntegerWidget} from './integer/integer.widget';
+import {RangeWidget} from './range/range.widget';
+import {TextAreaWidget} from './textarea/textarea.widget';
+import {FileWidget} from './file/file.widget';
+import {SelectWidget} from './select/select.widget';
+import {RadioWidget} from './radio/radio.widget';
+import {CheckboxWidget} from './checkbox/checkbox.widget';
+import {ButtonWidget} from './button/button.widget';
 
 export class DefaultWidgetRegistry extends WidgetRegistry {
   constructor() {
     super();
 
-    this.register('array',  ArrayWidget);
-    this.register('object',  ObjectWidget);
+    this.register('array', ArrayWidget);
+    this.register('object', ObjectWidget);
 
     this.register('string', StringWidget);
     this.register('search', StringWidget);
