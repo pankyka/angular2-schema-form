@@ -90,11 +90,11 @@ export class SchemaFormModule {
       providers: [
         {
           provide: WidgetRegistry,
-          useClass: DefaultWidgetRegistry
+          useValue: widgetRegistry
         },
         {
           provide: SchemaValidatorFactory,
-          useClass: ZSchemaValidatorFactory
+          useValue: validatorFactory
         }
       ]
     };
