@@ -144,6 +144,9 @@ var FormProperty = (function () {
         errors = this.mergeErrors(this._errors || [], errors);
         this.setErrors(errors);
     };
+    FormProperty.prototype.addValidator = function (validator) {
+        this.validatorRegistry.register(this.path, validator);
+    };
     FormProperty.prototype.searchProperty = function (path) {
         var prop = this;
         var base = null;

@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { SchemaValidatorFactory } from '../schemavalidatorfactory';
 import { ValidatorRegistry } from './validatorregistry';
+import { Validator } from './validator';
 export declare abstract class FormProperty {
     private validatorRegistry;
     schema: any;
@@ -34,6 +35,7 @@ export declare abstract class FormProperty {
     private mergeErrors(errors, newErrors);
     private setErrors(errors);
     extendErrors(errors: any): void;
+    addValidator(validator: Validator): void;
     searchProperty(path: string): FormProperty;
     findRoot(): PropertyGroup;
     private setVisible(visible);
