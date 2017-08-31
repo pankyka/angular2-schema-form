@@ -7,17 +7,13 @@ import { WidgetChooserComponent } from './widgetchooser.component';
 import { ArrayWidget, ButtonWidget, ObjectWidget, CheckboxWidget, FileWidget, IntegerWidget, TextAreaWidget, RadioWidget, RangeWidget, SelectWidget, StringWidget } from './defaultwidgets';
 import { DefaultWidget } from './default.widget';
 import { WidgetRegistry } from './widgetregistry';
-import { DefaultWidgetRegistry } from './defaultwidgets';
-import { SchemaValidatorFactory, ZSchemaValidatorFactory } from './schemavalidatorfactory';
+import { SchemaValidatorFactory } from './schemavalidatorfactory';
 import { FormElementComponentAction } from "./formelement.action.component";
 var SchemaFormModule = (function () {
     function SchemaFormModule() {
     }
     SchemaFormModule.forRoot = function (_a) {
-        var _b = _a === void 0 ? {
-            widgetRegistry: DefaultWidgetRegistry,
-            validatorFactory: ZSchemaValidatorFactory
-        } : _a, widgetRegistry = _b.widgetRegistry, validatorFactory = _b.validatorFactory;
+        var widgetRegistry = _a.widgetRegistry, validatorFactory = _a.validatorFactory;
         return {
             ngModule: SchemaFormModule,
             providers: [
