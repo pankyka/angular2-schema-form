@@ -7,7 +7,8 @@ import { WidgetChooserComponent } from './widgetchooser.component';
 import { ArrayWidget, ButtonWidget, ObjectWidget, CheckboxWidget, FileWidget, IntegerWidget, TextAreaWidget, RadioWidget, RangeWidget, SelectWidget, StringWidget } from './defaultwidgets';
 import { DefaultWidget } from './default.widget';
 import { WidgetRegistry } from './widgetregistry';
-import { SchemaValidatorFactory } from './schemavalidatorfactory';
+import { DefaultWidgetRegistry } from './defaultwidgets';
+import { SchemaValidatorFactory, ZSchemaValidatorFactory } from './schemavalidatorfactory';
 import { FormElementComponentAction } from "./formelement.action.component";
 var SchemaFormModule = (function () {
     function SchemaFormModule() {
@@ -19,11 +20,11 @@ var SchemaFormModule = (function () {
             providers: [
                 {
                     provide: WidgetRegistry,
-                    useClass: widgetRegistry
+                    useClass: DefaultWidgetRegistry
                 },
                 {
                     provide: SchemaValidatorFactory,
-                    useClass: validatorFactory
+                    useClass: ZSchemaValidatorFactory
                 }
             ]
         };
