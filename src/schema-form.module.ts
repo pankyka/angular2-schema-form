@@ -84,17 +84,17 @@ import {FormElementComponentAction} from "./formelement.action.component";
   ]
 })
 export class SchemaFormModule {
-  static forRoot({widgetRegistry, validatorFactory}: { widgetRegistry?: any, validatorFactory?: any}): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: SchemaFormModule,
       providers: [
         {
           provide: WidgetRegistry,
-          useValue: widgetRegistry
+          useValue: DefaultWidgetRegistry
         },
         {
           provide: SchemaValidatorFactory,
-          useValue: validatorFactory
+          useValue: ZSchemaValidatorFactory
         }
       ]
     };
